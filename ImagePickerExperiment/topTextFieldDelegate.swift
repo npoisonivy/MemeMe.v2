@@ -21,14 +21,21 @@ class topTextFieldDelegate: NSObject, UITextFieldDelegate {
         textField.text = ""
     }
     
-    
-    
+    // when user did not end up typing any char after tapping @ textfield, revert placeholder's text
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        if (textField.text!.isEmpty) {
+            textField.text = "Top"
+        }
+        return true
+    }
     
     // when user hits return -> dismiss keyboard
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder() // resign as a first responder
         return true
     }
+  
     
+    // ask mentor if i show add all code here instead of viewController????
     
 }
