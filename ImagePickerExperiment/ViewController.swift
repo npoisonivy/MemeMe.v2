@@ -58,6 +58,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // disable Share button @ start, enable it @ func imagePickerController, when image is picked - H/W's didFinishPickingMediaWithInfo can detect that...
         shareButton.enabled = false
         
+        
     }
     
     // when user launch the app, before view appears, will do this
@@ -135,10 +136,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // add if statment - prevent view got shifted up TWICE when user tapped top then bottom textfield continously!
     func keyboardWillshow(notification: NSNotification){
-        if self.view.frame.origin.y == 0 {
-            self.view.frame.origin.y -= getKeyboardHeight(notification)
+        if bottomTextField.isFirstResponder() {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= getKeyboardHeight(notification)
+            }
         }
-        
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
@@ -167,14 +169,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
         
     }
-
-    
-    // call generateMemedImage() - when?? - inside an action when a user do what??? - when user pressed = shareMemeButtonPressed
-    // var memedImage = generateMemedImage()
-    // then....
-    // since already initiialize within struct,
-    //  var abc = Meme(topText: <#T##UITextField#>, bottomText: <#T##UITextField#>, image: <#T##UIImageView#>, memedImage: <#T##UIImageView#>)
-    // abc.save(memedImage)
     
     // create Meme Struct with func save()
     struct Meme {
