@@ -12,8 +12,8 @@ import UIKit
 // create Meme Struct
 struct Meme {
     // properties w/ their types
-    var topText: String // As textfield's text is STRING!
-    var bottomText: String // String?
-    var image : UIImage!
-    var memedImage : UIImage!
+    let topText: String // As textfield's text is STRING!
+    let bottomText: String // String?
+    let image : UIImage!
+    let memedImage : UIImage!
 }

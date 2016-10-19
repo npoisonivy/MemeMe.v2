@@ -29,7 +29,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     // set character attributes for textField's font, outline and color
     let memeTextAttributes = [
         NSStrokeColorAttributeName: UIColor.blackColor(),
-        NSStrokeWidthAttributeName: 5.0,
+        NSStrokeWidthAttributeName: -5.0,
         NSForegroundColorAttributeName: UIColor.whiteColor(),
         NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!
     ]
@@ -68,6 +68,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
     // when user launch the app, before view appears, will do this
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         print("view will appear")
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         print("camera button is \(cameraButton.enabled)") // return false if device does not support camera
@@ -80,7 +81,6 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     override func viewWillDisappear(animated: Bool) {
-        
         super.viewWillDisappear(animated) // do i need this??
         
         // for shifting view - when keyboard is hidden
@@ -134,6 +134,8 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
             print("User choice a pic!")
         }
         
+        print(imagePickerView.contentMode)  // UIViewContentMode
+        
     }
 
     // this part is to shift view when KB is shown/ hidden
@@ -147,12 +149,10 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillshow(_:)), name: UIKeyboardWillShowNotification, object: nil)
     }
     
-    // add if statment - prevent view got shifted up TWICE when user tapped top then bottom textfield continously!
+    // add if isFirstResponder - ensure that this change only happens when user tapps bottom textfield
     func keyboardWillshow(notification: NSNotification){
         if bottomTextField.isFirstResponder() {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= getKeyboardHeight(notification)
-            }
+            self.view.frame.origin.y = -getKeyboardHeight(notification)   // since ios8 returns diff value
         }
     }
     
