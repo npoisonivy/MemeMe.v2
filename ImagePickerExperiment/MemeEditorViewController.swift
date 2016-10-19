@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+
+class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var imagePickerView: UIImageView!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -39,13 +40,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         topTextField.text = "TOP"
         bottomTextField.text = "Bottom"
         
-        // When viewDidLoad, set each textfield's defaultTextAttribute as memeTextAttributes
-        topTextField.defaultTextAttributes = memeTextAttributes
-        bottomTextField.defaultTextAttributes = memeTextAttributes
-        
-        // set text alignment - center-aligned - must be after .defaultAttributes, otherwise, it reset the textAlignment!
-        topTextField.textAlignment = .Center
-        bottomTextField.textAlignment = .Center
+        styleTextField(topTextField)
+        styleTextField(bottomTextField)
         
         // set each textfield's delegate with variable set earlier
         self.topTextField.delegate = topDelegate
@@ -60,6 +56,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         
     }
+    
+    // this styling func will apply to both top & bottom textField
+    func styleTextField(textField: UITextField) {
+        textField.backgroundColor = UIColor.clearColor()           // set background color of textfields
+        textField.defaultTextAttributes = memeTextAttributes       // When viewDidLoad, set each textfield's defaultTextAttribute as memeTextAttributes
+        textField.textAlignment = .Center                       //  set text alignment - center-aligned - must be after .defaultAttributes, otherwise, it reset the textAlignment!
+    }
+    
+    
     
     // when user launch the app, before view appears, will do this
     override func viewWillAppear(animated: Bool) {
@@ -83,24 +88,32 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         unsubscribeToKeyboardNotification2()
     }
     
+    func configureImagePickerController(sourceTypePassed: String) {
+        let pickerController = UIImagePickerController() // sourcetype of camera, photoLibrary/ savedPhotosAlbum
+        // need to implement delegate pattern - set our current view controller as a delegate of imagepickercontroller, so curretn VC will do what a UIImagePicketController would
+        pickerController.delegate = self    // without this, current VC will not show chosen pic
+        if sourceTypePassed == "PhotoLibrary" {
+            pickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            print("sourceType is PhotoLibrary")
+        } else {
+            pickerController.sourceType = UIImagePickerControllerSourceType.Camera
+            print("sourceType is Camera")
+        }
+        self.presentViewController(pickerController, animated: true, completion: nil)
+    }
+    
     // code related to launch imagePicker + set sourceType
     // The action method connected to the album button
     @IBAction func pickAnImageFromAlbum(sender: AnyObject) {
-        let pickerController = UIImagePickerController() // sourcetype of camera, photoLibrary/ savedPhotosAlbum
-        
-        // need to implement delegate pattern - set our current view controller as a delegate of imagepickercontroller, so curretn VC will do what a UIImagePicketController would
-        pickerController.delegate = self    // without this, current VC will not show chosen pic
-        pickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-        self.presentViewController(pickerController, animated: true, completion: nil)
+        let sourceType = "PhotoLibrary"
+        configureImagePickerController(sourceType)
     }
     
     // code related to launch imagePicker + set sourceType
     // The action method for the camera button
     @IBAction func pickAnImageFromCamera(sender: AnyObject) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        let sourceType = "Camera"
+        configureImagePickerController(sourceType)
     }
     
     // hard ware level, retrieve data (UIImage) to replace the placeholder - to showw user's chosen img
@@ -131,7 +144,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func subscribeToKeyboardNotification() {
       //  NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillshow:", name: UIKeyboardWillShowNotification, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardWillshow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillshow(_:)), name: UIKeyboardWillShowNotification, object: nil)
     }
     
     // add if statment - prevent view got shifted up TWICE when user tapped top then bottom textfield continously!
@@ -158,7 +171,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func subscribeToKeyboardNotification2() {
         // NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func keyboardWillHide(notification: NSNotification) {
@@ -167,16 +180,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func unsubscribeToKeyboardNotification2() {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
-        
-    }
-    
-    // create Meme Struct with func save()
-    struct Meme {
-        // properties w/ their types
-        var topText: String // As textfield's text is STRING!
-        var bottomText: String // String?
-        var image : UIImage!
-        var memedImage : UIImage!
     }
     
     func save() {  // call this when user hit album/ photolibrary button
@@ -185,17 +188,28 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let meme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, image: imagePickerView.image, memedImage: generateMemedImage())
         
         print(meme.bottomText)
-        print(meme.memedImage)
+        print("save() is called")
     }
     
-    // Combining image and text - to return the combined image "memedImage"
+    // Combining image and text - to return the image "memedImage" that ombines the image view + the textfields
     func generateMemedImage() -> UIImage {
-        // Render view to an image
+        
+        // hide toolbar and navbar
+        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.toolbarHidden = true
+        
+        
+        // Render view to an image - with no toolbar/ navbar
         UIGraphicsBeginImageContext(self.view.frame.size)   // set area/ context to be edited...
         view.drawViewHierarchyInRect(self.view.frame, afterScreenUpdates: true)   // allow update after user add text on image
         let memedImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()   // UIImage retrieved from Current ImageContext, saved to memedImage
         UIGraphicsEndImageContext()  // editing is completed
-        print(memedImage)
+        print("memedImage is just generated!")
+        
+        // before retuning memedImage, show toolbar/ navbar again -> so memedImg ends up having only 1 navbar + toolbar
+        self.navigationController?.navigationBarHidden = false
+        self.navigationController?.toolbarHidden = false
+        
         return memedImage
     }
     
@@ -209,13 +223,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // present Activity VC
         self.presentViewController(nextController, animated: true, completion: nil)
         
-        func donewithSharingHandler(activityType: String!, completed: Bool, returnedItems: [AnyObject]!, error: NSError!){
-            if completed {
-                save()
-            } else { // user tap cancel...
-                return
-            }
-        }
         // listener for notifying once sharing meme is completed... - apple doc - var completionWithItemsHandler: UIActivityViewControllerCompletionWithItemsHandler? { get set }
         nextController.completionWithItemsHandler = {
             
@@ -223,7 +230,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             if success {
                 print("new memedImg got saved! ")
-                self.save()
+                self.save()       // when user successfully share the memedImage - save it also!
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
