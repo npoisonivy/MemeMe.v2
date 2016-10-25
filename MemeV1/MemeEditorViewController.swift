@@ -43,8 +43,8 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         styleTextField(bottomTextField)
         
         // set each textfield's delegate with variable set earlier
-        self.topTextField.delegate = memeTextFieldDelegate
-        self.bottomTextField.delegate = memeTextFieldDelegate
+        self.topTextField.delegate = bothTextFieldDelegate
+        self.bottomTextField.delegate = bothTextFieldDelegate
         
         // To bring 2 textfields back on top of UIImageView. Because I place textfield to MSB first then UIImageView after, so the imageView block the textfield
         self.view.addSubview(imagePickerView)
