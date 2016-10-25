@@ -1,6 +1,6 @@
 //
 //  Meme.swift
-//  ImagePickerExperiment
+//  MemeMe.v1
 //
 //  Created by Nikki L on 10/18/16.
 //  Copyright © 2016 Nikki. All rights reserved.

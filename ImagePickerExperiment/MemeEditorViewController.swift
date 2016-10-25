@@ -1,6 +1,6 @@
 //
-//  ViewController.swift
-//  ImagePickerExperiment
+//  MemeEditorViewController.swift
+//  MemeMeV1
 //
 //  Created by Nikki L on 10/4/16.
 //  Copyright © 2016 Nikki. All rights reserved.
@@ -22,8 +22,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
     
     // initialize & declare Delegate files
-    let topDelegate = topTextFieldDelegate()
-    let bottomDelegate = bottomTextFieldDelegate()
+    let bothTextFieldDelegate = memeTextFieldDelegate()
     
     // code for setting how text/ color/ font should be...
     // set character attributes for textField's font, outline and color
@@ -44,8 +43,8 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         styleTextField(bottomTextField)
         
         // set each textfield's delegate with variable set earlier
-        self.topTextField.delegate = topDelegate
-        self.bottomTextField.delegate = bottomDelegate
+        self.topTextField.delegate = memeTextFieldDelegate
+        self.bottomTextField.delegate = memeTextFieldDelegate
         
         // To bring 2 textfields back on top of UIImageView. Because I place textfield to MSB first then UIImageView after, so the imageView block the textfield
         self.view.addSubview(imagePickerView)

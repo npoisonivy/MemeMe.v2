@@ -1,6 +1,6 @@
 //
-//  topTextFieldDelegate.swift
-//  ImagePickerExperiment
+//  memeTextFieldDelegate.swift
+//  MemeMeV1
 //
 //  Created by Nikki L on 10/5/16.
 //  Copyright © 2016 Nikki. All rights reserved.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class topTextFieldDelegate: NSObject, UITextFieldDelegate {
+class memeTextFieldDelegate: NSObject, UITextFieldDelegate {
     
     // let user to add the text - return true - this goes before textFieldDidBeginEditing
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
@@ -24,7 +24,11 @@ class topTextFieldDelegate: NSObject, UITextFieldDelegate {
     // when user did not end up typing any char after tapping @ textfield, revert placeholder's text
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         if (textField.text!.isEmpty) {
-            textField.text = "Top"
+            if textField.tag == 0 {
+                textField.text = "Top"
+            } else {
+                textField.text = "Bottom"
+            }
         }
         return true
     }
@@ -34,8 +38,5 @@ class topTextFieldDelegate: NSObject, UITextFieldDelegate {
         textField.resignFirstResponder() // resign as a first responder
         return true
     }
-  
-    
-    // ask mentor if i show add all code here instead of viewController????
     
 }
