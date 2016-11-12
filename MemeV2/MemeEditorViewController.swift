@@ -61,6 +61,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         textField.backgroundColor = UIColor.clearColor()           // set background color of textfields
         textField.defaultTextAttributes = memeTextAttributes       // When viewDidLoad, set each textfield's defaultTextAttribute as memeTextAttributes
         textField.textAlignment = .Center                       //  set text alignment - center-aligned - must be after .defaultAttributes, otherwise, it reset the textAlignment!
+        textField.borderStyle = .None
     }
     
     
@@ -148,7 +149,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillshow(_:)), name: UIKeyboardWillShowNotification, object: nil)
     }
     
-    // add if isFirstResponder - ensure that this change only happens when user tapps bottom textfield
+    // add if isFirstResponder == bottomTextField - ensure that this change only happens when user tapps bottom textfield
     func keyboardWillshow(notification: NSNotification){
         if bottomTextField.isFirstResponder() {
             self.view.frame.origin.y = -getKeyboardHeight(notification)   // since ios8 returns diff value
@@ -188,6 +189,12 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
         print(meme.bottomText)
         print("save() is called")
+        
+        
+        // @ App Delegate - var memes = [Meme]() , add this newly saved meme (= new Struct Meme) to this Array
+        // Delegate.memes.append(meme) - call Delegate's array name, append ocb to it
+        (UIApplication.sharedApplication().delegate as! AppDelegate).memes.append(meme)
+        
     }
     
     // Combining image and text - to return the image "memedImage" that ombines the image view + the textfields
