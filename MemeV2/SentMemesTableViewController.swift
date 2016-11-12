@@ -23,10 +23,11 @@ class SentMemesTableViewController: UITableViewController {
  
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.memes.count
+        print(memes.count)
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("CustomMemeCell")!
+        let cell = tableView.dequeueReusableCellWithIdentifier("MemeTableCell")!
         
         let meme = memes[indexPath.row]
         cell.textLabel!.text = meme.topText
