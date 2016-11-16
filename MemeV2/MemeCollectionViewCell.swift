@@ -1,4 +1,4 @@
-//
+    //
 //  MemeCollectionViewCell.swift
 //  MemeV2
 //
@@ -15,3 +15,16 @@ class MemeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var bottomLabel: UILabel!
     
 }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

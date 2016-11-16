@@ -17,3 +17,16 @@ struct Meme {
     let image : UIImage!
     let memedImage : UIImage!
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
