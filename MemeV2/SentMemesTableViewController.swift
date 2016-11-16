@@ -26,7 +26,7 @@ class SentMemesTableViewController: UITableViewController {
  
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print(memes.count)
-        return self.memes.count
+        return memes.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -50,7 +50,7 @@ class SentMemesTableViewController: UITableViewController {
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("MemeDetailViewController") as! MemeDetailViewController
         
         // populate view controller with data
-        let meme = self.memes[indexPath.item]
+        let meme = memes[indexPath.item]
         // only to show memedImage on memeDetailController
         nextController.memedImage_toshow = meme.memedImage
         

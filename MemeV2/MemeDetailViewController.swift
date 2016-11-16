@@ -10,10 +10,16 @@ import Foundation
 import UIKit
 
 class MemeDetailViewController: UIViewController {
-    var memedImage_toshow: UIImage! // memedImage will be passed
+    var memedImage_toshow: UIImage! // this to save the memedImage being passed
+    
+    // set outlet, set outlet's display as memedImage_show
+    @IBOutlet weak var imageDisplay: UIImageView!
     
     override func viewWillAppear(animated: Bool) {
-        print(memedImage_toshow) // image <UIImage: 0x7f8e40569f00> size {375, 667} orientation 0 scale 1.000000
+        
+        // show memedImage_toshow below!
+        imageDisplay.image = memedImage_toshow
+        
     }
     
 }

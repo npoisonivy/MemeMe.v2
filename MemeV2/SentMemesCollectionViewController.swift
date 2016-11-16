@@ -24,8 +24,8 @@ class SentMemesCollectionViewController: UICollectionViewController  {
     
 override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        print(self.memes.count)
-        return self.memes.count
+        print(memes.count)
+        return memes.count
     }
     
     // show Meme in collection summary view
@@ -36,7 +36,7 @@ override func collectionView(collectionView: UICollectionView, numberOfItemsInSe
         // set UI data with struct Meme data
         // Struct: topText, bottomText, image, memedImage - at the right hand side of "="
         // MemeCollectionViewCell's properties - topLabel, memeImage, bottomLabel - at the left side of "="
-        let meme = self.memes[indexPath.item] // that ONE meme out of ALL Memes
+        let meme = memes[indexPath.item] // that ONE meme out of ALL Memes
         // set cell's content 
 
         // @ cell-MemeCollectionViewcell - @IBOutlet weak var memeImage: UIImageView!
@@ -52,7 +52,7 @@ override func collectionView(collectionView: UICollectionView, numberOfItemsInSe
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("MemeDetailViewController") as! MemeDetailViewController
         
         // let individual meme when user choose one of meme -> return indexPath to this method
-        let meme = self.memes[indexPath.item]
+        let meme = memes[indexPath.item]
         
         // set DetailView's data
         nextController.memedImage_toshow = meme.memedImage

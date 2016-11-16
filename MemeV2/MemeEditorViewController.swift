@@ -20,7 +20,6 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     // Add shareButton outlet and action that generates memeDImage, present Activity View..
     @IBOutlet weak var shareButton: UIBarButtonItem!
     
-    
     // initialize & declare Delegate files
     let bothTextFieldDelegate = memeTextFieldDelegate()
     
@@ -42,10 +41,6 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         styleTextField(topTextField)
         styleTextField(bottomTextField)
         
-        // set each textfield's delegate with variable set earlier
-        self.topTextField.delegate = bothTextFieldDelegate
-        self.bottomTextField.delegate = bothTextFieldDelegate
-        
         // To bring 2 textfields back on top of UIImageView. Because I place textfield to MSB first then UIImageView after, so the imageView block the textfield
         self.view.addSubview(imagePickerView)
         self.view.sendSubviewToBack(imagePickerView)
@@ -56,8 +51,15 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
     }
     
+    @IBAction func cancelMemeEditor(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     // this styling func will apply to both top & bottom textField
     func styleTextField(textField: UITextField) {
+        
+        textField.delegate = bothTextFieldDelegate // set delegate of textfield
+        
         textField.backgroundColor = UIColor.clearColor()           // set background color of textfields
         textField.defaultTextAttributes = memeTextAttributes       // When viewDidLoad, set each textfield's defaultTextAttribute as memeTextAttributes
         textField.textAlignment = .Center                       //  set text alignment - center-aligned - must be after .defaultAttributes, otherwise, it reset the textAlignment!
