@@ -20,6 +20,10 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     // Add shareButton outlet and action that generates memeDImage, present Activity View..
     @IBOutlet weak var shareButton: UIBarButtonItem!
     
+    @IBOutlet weak var topToolBar: UIToolbar!
+    @IBOutlet weak var bottomToolBar: UIToolbar!
+    
+
     // initialize & declare Delegate files
     let bothTextFieldDelegate = memeTextFieldDelegate()
     
@@ -47,7 +51,6 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
         // disable Share button @ start, enable it @ func imagePickerController, when image is picked - H/W's didFinishPickingMediaWithInfo can detect that...
         shareButton.enabled = false
-        
         
     }
     
@@ -90,31 +93,27 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         unsubscribeToKeyboardNotification2()
     }
     
-    func configureImagePickerController(sourceTypePassed: String) {
+    func configureImagePickerController(sourceType: UIImagePickerControllerSourceType) {
         let pickerController = UIImagePickerController() // sourcetype of camera, photoLibrary/ savedPhotosAlbum
         // need to implement delegate pattern - set our current view controller as a delegate of imagepickercontroller, so curretn VC will do what a UIImagePicketController would
         pickerController.delegate = self    // without this, current VC will not show chosen pic
-        if sourceTypePassed == "PhotoLibrary" {
-            pickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-            print("sourceType is PhotoLibrary")
-        } else {
-            pickerController.sourceType = UIImagePickerControllerSourceType.Camera
-            print("sourceType is Camera")
-        }
+      
+        pickerController.sourceType = sourceType
+        print("Source type is chosen.. \(pickerController.sourceType)")
         self.presentViewController(pickerController, animated: true, completion: nil)
     }
     
     // code related to launch imagePicker + set sourceType
     // The action method connected to the album button
     @IBAction func pickAnImageFromAlbum(sender: AnyObject) {
-        let sourceType = "PhotoLibrary"
+        let sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         configureImagePickerController(sourceType)
     }
     
     // code related to launch imagePicker + set sourceType
     // The action method for the camera button
     @IBAction func pickAnImageFromCamera(sender: AnyObject) {
-        let sourceType = "Camera"
+        let sourceType = UIImagePickerControllerSourceType.Camera
         configureImagePickerController(sourceType)
     }
     
@@ -150,6 +149,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillshow(_:)), name: UIKeyboardWillShowNotification, object: nil)
     }
+    
     
     // add if isFirstResponder == bottomTextField - ensure that this change only happens when user tapps bottom textfield
     func keyboardWillshow(notification: NSNotification){
@@ -203,8 +203,8 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     func generateMemedImage() -> UIImage {
         
         // hide toolbar and navbar
-        self.navigationController?.navigationBarHidden = true
-        self.navigationController?.toolbarHidden = true
+        topToolBar.hidden = true
+        bottomToolBar.hidden = true
         
         
         // Render view to an image - with no toolbar/ navbar
@@ -215,9 +215,9 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         print("memedImage is just generated!")
         
         // before retuning memedImage, show toolbar/ navbar again -> so memedImg ends up having only 1 navbar + toolbar
-        self.navigationController?.navigationBarHidden = false
-        self.navigationController?.toolbarHidden = false
-        
+        topToolBar.hidden = false
+        bottomToolBar.hidden = false
+//
         return memedImage
     }
     

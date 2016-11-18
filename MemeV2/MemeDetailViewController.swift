@@ -19,7 +19,6 @@ class MemeDetailViewController: UIViewController {
         
         // show memedImage_toshow below!
         imageDisplay.image = memedImage_toshow
-        
     }
     
 }

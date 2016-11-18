@@ -87,10 +87,12 @@
                     </view>
                     <connections>
                         <outlet property="bottomTextField" destination="i1G-8y-9Ak" id="xtS-5r-XAR"/>
+                        <outlet property="bottomToolBar" destination="AF2-fq-Z3z" id="nY4-ty-xmM"/>
                         <outlet property="cameraButton" destination="AwV-Ow-rQL" id="CW2-A1-mqm"/>
                         <outlet property="imagePickerView" destination="ZrE-gH-NW4" id="cVR-1H-5vc"/>
                         <outlet property="shareButton" destination="cpi-8k-vMX" id="JIh-87-biq"/>
                         <outlet property="topTextField" destination="jTB-Nx-e7i" id="kXL-YL-1Ti"/>
+                        <outlet property="topToolBar" destination="Vyo-Ns-X8J" id="YgV-aE-ck6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -101,7 +103,7 @@
         <scene sceneID="hhc-dp-TBl">
             <objects>
                 <navigationController title="Collection" id="Map-YY-m5N" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Collection" id="nuj-4X-AFI"/>
+                    <tabBarItem key="tabBarItem" title="Collection" image="colImage" selectedImage="colImage" id="nuj-4X-AFI"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="u5f-D1-kyp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -177,7 +179,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6nM-QG-Dkb">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6nM-QG-Dkb">
                                 <rect key="frame" x="20" y="20" width="560" height="560"/>
                             </imageView>
                         </subviews>
@@ -201,7 +203,7 @@
         <scene sceneID="C6V-uM-TwY">
             <objects>
                 <navigationController title="Table" id="efs-mA-oGe" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Table" id="M89-vS-xib"/>
+                    <tabBarItem key="tabBarItem" title="Table" image="tableImage" selectedImage="tableImage" id="M89-vS-xib"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aNe-6y-qm2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -266,6 +268,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="flowLayout" destination="JUg-dl-I0t" id="Qnf-UF-yG1"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mx0-RW-MGZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -290,6 +295,10 @@
             <point key="canvasLocation" x="408" y="428"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="colImage" width="30" height="30"/>
+        <image name="tableImage" width="30" height="30"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="DEt-84-Og8"/>
     </inferredMetricsTieBreakers>

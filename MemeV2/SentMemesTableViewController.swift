@@ -40,8 +40,35 @@ class SentMemesTableViewController: UITableViewController {
         // set cell's properties = struct properties
         cell.imageView?.image = meme.memedImage
         cell.textLabel!.text = ""
-        cell.detailTextLabel!.text = meme.topText + "..." + meme.bottomText
-    
+        
+        // add logic to deal with topText, bottomText
+        let topText = meme.topText
+        let bottomText = meme.bottomText
+        
+        let topTextFirst3: String
+        let bottomTextLast3: String
+        
+        
+        if topText.characters.count > 3 {
+            topTextFirst3 = topText.substringToIndex(topText.startIndex.advancedBy(3))
+        } else { // if it's only "It"
+            topTextFirst3 = topText
+        }
+        
+        if bottomText.characters.count > 3 {
+            bottomTextLast3 = bottomText.substringFromIndex(bottomText.endIndex.advancedBy(-3))
+        } else {
+            bottomTextLast3 = bottomText
+        }
+        
+//        let bottomStartIndex = bottomText.endIndex.advancedBy(-3)
+//        let bottomTextLast3 = bottomText.substringFromIndex(bottomStartIndex)
+        
+//        let str = "Hello, darling."
+//        var substring1 = str.substringToIndex(str.startIndex.advancedBy(5))
+        
+        cell.detailTextLabel!.text = topTextFirst3 + "..." + bottomTextLast3
+        
         return cell
     }
 
