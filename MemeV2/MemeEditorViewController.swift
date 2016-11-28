@@ -78,8 +78,6 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         print("camera button is \(cameraButton.enabled)") // return false if device does not support camera
         
-        super.viewWillAppear(animated) // do i tneed this still??
-        
         // for shifting views - when keyboard shows
         subscribeToKeyboardNotification()
         subscribeToKeyboardNotification2()
