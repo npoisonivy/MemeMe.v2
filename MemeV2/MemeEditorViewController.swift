@@ -80,15 +80,13 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         
         // for shifting views - when keyboard shows
         subscribeToKeyboardNotification()
-        subscribeToKeyboardNotification2()
     }
     
     override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated) // do i need this??
+        super.viewWillDisappear(animated) // do i need this?? - i need this due to calling unsubscribe
         
         // for shifting view - when keyboard is hidden
         unsubscribeToKeyboardNotification()
-        unsubscribeToKeyboardNotification2()
     }
     
     func configureImagePickerController(sourceType: UIImagePickerControllerSourceType) {
@@ -143,9 +141,11 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     // 3. func getKeyboardHeight -> get it from UserInfo [key] from Notification
     // 4. unsubscribe
     func subscribeToKeyboardNotification() {
-      //  NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillshow:", name: UIKeyboardWillShowNotification, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillshow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        
+        // shift view back when keyboard is hidden
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     
@@ -155,7 +155,6 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
             self.view.frame.origin.y = -getKeyboardHeight(notification)   // since ios8 returns diff value
         }
     }
-    
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
         let userInfo = notification.userInfo!
         let keyboardSize = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
@@ -163,22 +162,12 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         return keyboardSize.CGRectValue().height
     }
     
-    func unsubscribeToKeyboardNotification() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-    }
-    
-    // shift view back when keyboard is hidden
-    
-    func subscribeToKeyboardNotification2() {
-        // NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MemeEditorViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
-    }
-    
     func keyboardWillHide(notification: NSNotification) {
         self.view.frame.origin.y = 0
     }
     
-    func unsubscribeToKeyboardNotification2() {
+    func unsubscribeToKeyboardNotification() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
     
