@@ -1,10 +1,20 @@
 MemeMe v2
 
-This app allows users to create a meme, either from a photo they just take or chosen from photo library, with their words. Shared meme will be saved and displated as a list (swift table) or grid (swift collection).
+This iOS app (written in Swift) enables users to take a picture or choose one from the photo album, and add text at the top and bottom to form a Meme. 
 
-Swift Compoents used:
+Features:
+- shares Memes on Facebook and Twitter and also by SMS or email
+- the shared Memes are and displayed as a list (table view) or grid (collection view) by toggling the tabs on a tab bar.
 
-Tab views UI Table Views UI Collection Views Custom cell views UI Navigation Image picker Delegates
+Swift Components Used:
+- UINavigationController
+- Datasource protocols
+- UITabBarController
+- UICollectionViewDelegate and UITableViewDelegate
+- Custom cell views 
+- UIImagePickerControllerDelegate, UIImagePickerController
+- UIActivityViewController
+- Swift optionals, closures, collections, classes, structs and protocols
 
 *** How to use ***
 
