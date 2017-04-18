@@ -1,6 +1,7 @@
 MemeMe v2
 
-This iOS app (written in Swift) enables users to take a picture or choose one from the photo album, and add text at the top and bottom to form a Meme. 
+
+This iOS app (written in Swift) enables users to take a picture or choose one from the photo album, and add text on it to form a Meme. 
 
 Features:
 - shares Memes on Facebook and Twitter and also by SMS or email
